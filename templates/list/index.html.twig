@@ -1,33 +1,40 @@
-{# templates/list/index.html.twig #} {% extends 'base.html.twig' %} {% block
-body %}
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card bg-light mb-3 mt-3">
-        <div class="card-body">
-          <div class="card-header">List of top technology companies</div>
-          {% if app.user != null %}
-          <table class="table">
-            <tr>
-              <th>Company Name</th>
-              <th>Market Value</th>
-            </tr>
-            {% for key, item in companies %}
-            <tr>
-              <td>{{ key }}</td>
-              <td>{{ item }}</td>
-            </tr>
-            {% endfor %}
-          </table>
-          {% endif %}
+{% extends 'base.html.twig' %}
+{% block title %}Assets list{% endblock %}
+{% block body %}
+  {% if app.user != null %}
+    {% for asset in assets %}
+      <div class="card mb-3">
+        <div class="card-body bg-light">
+          <div class="row">
+            <div class="col">
+              <div class="row">
+                <div class="col-6 text-center">
+                  0
+                  <br>
+                  <small>assets</small>
+                </div>
+                <div class="col-6 text-center">
+                  {{ asset.id }}
+                  <br>
+                  <small>views</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-10">
+              <h5 class="card-title"><a href="{{ path('app_asset', { 'id': asset.id }) }}">{{ asset.description }}</a></h5>
+
+            </div>
+
+          </div>
         </div>
       </div>
-      {% if app.user == null %}
-      <a href="{{ path('app_login') }}" class="btn btn-info">
-        You need to login to see the list  >></a
-      >
-      {% endif %}
-    </div>
-  </div>
-</div>
+    {% else %}
+      <div class="text-center alert alert-primary">No assets listed!</div>
+    {% endfor %}
+  {% endif %}
+  {% if app.user == null %}
+    <a href="{{ path('app_login') }}" class="btn btn-info">
+      You need to login to see the asset list >></a
+    >
+  {% endif %}
 {% endblock %}
